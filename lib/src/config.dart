@@ -6,7 +6,7 @@ final home = Platform.environment['HOME'];
 
 final env = DotEnv(quiet: true)
   ..load([
-    "$home/.config/worklog/config",
+    "$home/.config/jira_add_on/config",
     ".env",
   ]);
 
