@@ -6,7 +6,7 @@ Command-line interface to interact with Jira.
 
 ### 1.1 Prerequisites
 
-In order to use this Jira add-on you must have the [Dart SDK][https://dart.dev/get-dart] installed on your machine.
+In order to use this Jira add-on you must have the [Dart SDK](https://dart.dev/get-dart) installed on your machine.
 
 ### 1.2 Installing
 
