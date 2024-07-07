@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:deep_pick/deep_pick.dart';
+import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
 class LogCommand extends Command {
@@ -36,12 +39,35 @@ class LogCommand extends Command {
     final issueKey = pick(results.rest, 0).asStringOrThrow();
     final timeSpent = pick(results.rest, 1).asStringOrThrow();
 
-    await postIssueByKeyWorklog(
-      issueKey,
-      WorklogForm(
-        timeSpent: timeSpent,
-        comment: results.option('comment'),
-      ),
-    );
+    try {
+      await postIssueByKeyWorklog(
+        issueKey,
+        WorklogForm(
+          timeSpent: timeSpent,
+          comment: results.option('comment'),
+        ),
+      );
+    } //
+    on DioException catch (e) {
+      final response = e.response;
+      if (response == null) {
+        stderr.writeln('Failed to connect to the server.');
+        exit(1);
+      }
+
+      switch (response.statusCode) {
+        case 400:
+          stderr.writeln('[400] Bad request. Please check the arguments.');
+          exit(1);
+
+        case 404:
+          stderr.writeln('[404] Issue with key: `$issueKey` not found.');
+          exit(1);
+
+        case 401:
+          stderr.writeln('[401] Unauthorized.');
+          exit(1);
+      }
+    }
   }
 }
