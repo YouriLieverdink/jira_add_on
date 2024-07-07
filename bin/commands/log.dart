@@ -1,6 +1,6 @@
 import 'package:args/command_runner.dart';
 import 'package:deep_pick/deep_pick.dart';
-import 'package:worklog/worklog.dart';
+import 'package:jira_add_on/jira_add_on.dart';
 
 class LogCommand extends Command {
   LogCommand() {

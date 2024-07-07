@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:worklog/worklog.dart';
+import 'package:jira_add_on/jira_add_on.dart';
 
 final _options = BaseOptions(
   baseUrl: baseUrl,
