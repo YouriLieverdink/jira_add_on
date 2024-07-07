@@ -10,7 +10,7 @@ Future<void> main(
   List<String> args,
 ) async {
   final runner = CommandRunner(
-    'worklog',
+    'jira_add_on',
     'Command-line tool to log working hours on Jira.',
   );
 

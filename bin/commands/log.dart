@@ -21,7 +21,7 @@ class LogCommand extends Command {
   final description = 'Log work on an issue';
 
   @override
-  final usage = 'worklog log <issueKey> <timeSpent>';
+  final usage = 'jira_add_on log <issueKey> <timeSpent>';
 
   @override
   Future<void> run() async {
