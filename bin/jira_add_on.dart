@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:jira_add_on/jira_add_on.dart';
 
 import './commands/log.dart';
+import './commands/myself.dart';
 
 Future<void> main(
   List<String> args,
@@ -13,12 +15,16 @@ Future<void> main(
   );
 
   runner.addCommand(LogCommand());
+  runner.addCommand(MyselfCommand());
 
   try {
     await runner.run(args);
   } //
   on UsageException catch (e) {
-    print(e);
+    stderr.writeln(e);
     exit(64);
+  } //
+  finally {
+    jiraClient.close();
   }
 }
