@@ -26,6 +26,8 @@ cp .env.example ~/.config/jira_add_on/config
 vim ~/.config_jira_add_on/config
 ```
 
+*Note*: You can manage the Jira API tokens [here](https://id.atlassian.com/manage-profile/security/api-tokens).
+
 4. Run
 ```sh
 jira_add_on --help
