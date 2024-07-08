@@ -16,28 +16,14 @@ class AssignedCommand extends Command {
 
   @override
   Future<void> run() async {
-    try {
-      final issues = await search(
-        'statusCategory != "Done" AND assignee = currentUser() ORDER BY status',
-      );
+    final issues = await search(
+      'statusCategory != "Done" AND assignee = currentUser() ORDER BY status',
+    );
 
-      issues //
-          .map((issue) => issue.toPrintable())
-          .forEach(stdout.writeJson);
-      exit(0);
-    } //
-    on DioException catch (e) {
-      final response = e.response;
-      if (response == null) {
-        stderr.writeln('Failed to connect to the server.');
-        exit(1);
-      }
+    issues //
+        .map((issue) => issue.toPrintable())
+        .forEach(stdout.writeJson);
 
-      switch (response.statusCode) {
-        case 401:
-          stderr.writeln('[401] Unauthorized.');
-          exit(1);
-      }
-    }
+    exit(0);
   }
 }

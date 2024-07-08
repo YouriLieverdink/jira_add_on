@@ -49,6 +49,7 @@ class LogCommand extends Command {
       );
 
       stdout.writeJson(worklog);
+
       exit(0);
     } //
     on DioException catch (e) {
@@ -59,18 +60,12 @@ class LogCommand extends Command {
       }
 
       switch (response.statusCode) {
-        case 400:
-          stderr.writeln('[400] Bad request. Please check the arguments.');
-          exit(1);
-
         case 404:
           stderr.writeln('[404] Issue with key: `$issueKey` not found.');
           exit(1);
-
-        case 401:
-          stderr.writeln('[401] Unauthorized.');
-          exit(1);
       }
+
+      rethrow;
     }
   }
 }
