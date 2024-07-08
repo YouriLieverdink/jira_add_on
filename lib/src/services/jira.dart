@@ -21,3 +21,18 @@ Future<User> getMyself() async {
 
   return User.fromJson(response.data);
 }
+
+Future<List<Issue>> search(
+  String jql,
+) async {
+  final response = await jiraClient.get(
+    '/search',
+    queryParameters: {
+      'jql': jql,
+    },
+  );
+
+  return (response.data['issues'] as List)
+      .map((issue) => Issue.fromJson(issue))
+      .toList();
+}

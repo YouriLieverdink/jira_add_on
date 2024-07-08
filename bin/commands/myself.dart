@@ -16,24 +16,10 @@ class MyselfCommand extends Command {
 
   @override
   Future<void> run() async {
-    try {
-      final user = await getMyself();
+    final user = await getMyself();
 
-      stdout.writeJson(user);
-      exit(0);
-    } //
-    on DioException catch (e) {
-      final response = e.response;
-      if (response == null) {
-        stderr.writeln('Failed to connect to the server.');
-        exit(1);
-      }
+    stdout.writeJson(user);
 
-      switch (response.statusCode) {
-        case 401:
-          stderr.writeln('[401] Unauthorized.');
-          exit(1);
-      }
-    }
+    exit(0);
   }
 }
