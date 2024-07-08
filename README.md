@@ -12,7 +12,7 @@ In order to use this Jira add-on you must have the [Dart SDK](https://dart.dev/g
 
 1. Activate to be run from anywhere on your system
 ```sh
-make activate
+dart pub global activate -sgit https://github.com/YouriLieverdink/jira_add_on.git
 ```
 
 2. Create and edit the configuration file
