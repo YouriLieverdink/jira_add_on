@@ -18,7 +18,7 @@ make activate
 2. Create and edit the configuration file
 ```sh
 cp .env.example ~/.config/jira_add_on/config
-vim ~/.config_jira_add_on/config
+vim ~/.config/jira_add_on/config
 ```
 
 *Note*: You can manage the Jira API tokens [here](https://id.atlassian.com/manage-profile/security/api-tokens).
