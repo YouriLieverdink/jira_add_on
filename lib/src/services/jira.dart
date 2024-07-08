@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:deep_pick/deep_pick.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
 Future<Worklog> postIssueByKeyWorklog(
