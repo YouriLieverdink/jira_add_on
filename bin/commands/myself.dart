@@ -19,7 +19,8 @@ class MyselfCommand extends Command {
     try {
       final user = await getMyself();
 
-      stdout.writeln('${user.displayName} <${user.emailAddress}>');
+      stdout.writeJson(user);
+      exit(0);
     } //
     on DioException catch (e) {
       final response = e.response;
