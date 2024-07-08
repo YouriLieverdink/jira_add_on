@@ -2,14 +2,16 @@ import 'dart:convert';
 
 import 'package:jira_add_on/jira_add_on.dart';
 
-Future<void> postIssueByKeyWorklog(
+Future<Worklog> postIssueByKeyWorklog(
   String key,
   WorklogForm form,
 ) async {
-  await jiraClient.post(
+  final response = await jiraClient.post(
     '/issue/$key/worklog',
     data: jsonEncode(form),
   );
+
+  return Worklog.fromJson(response.data);
 }
 
 Future<User> getMyself() async {

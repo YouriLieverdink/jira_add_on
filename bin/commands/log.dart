@@ -40,13 +40,16 @@ class LogCommand extends Command {
     final timeSpent = pick(results.rest, 1).asStringOrThrow();
 
     try {
-      await postIssueByKeyWorklog(
+      final worklog = await postIssueByKeyWorklog(
         issueKey,
         WorklogForm(
           timeSpent: timeSpent,
           comment: results.option('comment'),
         ),
       );
+
+      stdout.writeJson(worklog);
+      exit(0);
     } //
     on DioException catch (e) {
       final response = e.response;
