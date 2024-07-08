@@ -1,3 +1,7 @@
+# 0.4.0
+
+- feat: add `assigned` command
+
 # 0.3.0
 
 - docs: add information on where to find API tokens in Jira

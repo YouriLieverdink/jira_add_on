@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
 class AssignedCommand extends Command {
