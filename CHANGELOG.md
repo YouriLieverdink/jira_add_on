@@ -1,3 +1,7 @@
+# 0.3.0
+
+- docs: add information on where to find API tokens in Jira
+
 # 0.2.0
 
 - feat: display worklog on success

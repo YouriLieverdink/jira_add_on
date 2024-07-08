@@ -1,6 +1,6 @@
 name: jira_add_on
 description: Command-line tool to log working hours on Jira.
-version: 0.2.0
+version: 0.3.0
 
 environment:
   sdk: ^3.4.1
