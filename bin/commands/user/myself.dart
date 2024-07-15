@@ -5,20 +5,19 @@ import 'package:jira_add_on/jira_add_on.dart';
 
 class MyselfCommand extends Command {
   @override
-  final name = 'myself';
+  String get name => 'myself';
 
   @override
-  final description = 'Returns details for the current user.';
+  String get description => 'Show details of the current user.';
 
   @override
-  final usage = 'myself';
+  String get category => 'User';
 
   @override
   Future<void> run() async {
     final user = await getMyself();
 
-    stdout.writeJson(user);
-
+    stdout.writeJson(user.toPrintable());
     exit(0);
   }
 }

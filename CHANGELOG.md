@@ -1,3 +1,8 @@
+# 0.6.0
+
+- refactor: refine the commands
+- feat: add `build` command
+
 # 0.5.1
 
 - refactor: print usage information when no time spent is provided

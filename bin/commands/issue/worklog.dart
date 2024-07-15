@@ -3,54 +3,44 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
-import 'package:jira_add_on/src/services/git.dart';
 
-class LogCommand extends Command {
-  LogCommand() {
+class WorklogCommand extends Command {
+  @override
+  String get name => 'worklog';
+
+  @override
+  String get description => 'Add a worklog to an issue.';
+
+  @override
+  String get category => 'Issue';
+
+  @override
+  String get invocation => '$name [timeSpent]';
+
+  WorklogCommand() {
+    addIssueKeyOption(argParser);
+
     argParser.addOption(
       'comment',
       abbr: 'c',
       help: 'Additional comment for the worklog.',
     );
-
-    argParser.addOption(
-      'key',
-      abbr: 'k',
-      help: 'The issue key to log work on.',
-    );
   }
-
-  @override
-  final name = 'log';
-
-  @override
-  final description = 'Log work on an issue';
-
-  @override
-  final usage = 'jira_add_on log <timeSpent>';
 
   @override
   Future<void> run() async {
     final results = argResults;
     if (results == null) return;
 
-    if (results.rest.isEmpty) {
+    final timeSpent = results.rest.join(' ');
+    if (timeSpent.isEmpty) {
       throw UsageException(
-        'No time spent provided.',
+        'Please specify the time spent on the issue.',
         usage,
       );
     }
 
-    final timeSpent = results.rest.join(' ');
-
-    var issueKey = results.option('key');
-
-    // When no issue key is provided, try to read from the current branch.
-    if (issueKey == null) {
-      final branch = branchShowCurrent();
-      issueKey = getKeyFromBranch(branch);
-    }
-
+    final issueKey = results.option('key');
     if (issueKey == null) {
       throw UsageException(
         'Issue key could not be determined. Please use the --key option.',
@@ -58,17 +48,18 @@ class LogCommand extends Command {
       );
     }
 
+    final comment = results.option('comment');
+
     try {
       final worklog = await postIssueByKeyWorklog(
         issueKey,
         WorklogForm(
           timeSpent: timeSpent,
-          comment: results.option('comment'),
+          comment: comment,
         ),
       );
 
       stdout.writeJson(worklog);
-
       exit(0);
     } //
     on DioException catch (e) {
