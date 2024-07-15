@@ -13,7 +13,7 @@ class BuildCommand extends Command {
   @override
   Future<void> run() async {
     final build = {
-      'version': '0.5.1',
+      'version': '0.6.0',
     };
 
     stdout.writeJson(build);
