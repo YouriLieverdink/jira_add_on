@@ -1,3 +1,7 @@
+# 0.5.0
+
+- feat: read issue key from current branch name
+
 # 0.4.0
 
 - feat: add `assigned` command

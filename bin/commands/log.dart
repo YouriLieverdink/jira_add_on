@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
-import 'package:deep_pick/deep_pick.dart';
 import 'package:dio/dio.dart';
-import 'package:interact/interact.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 import 'package:jira_add_on/src/services/git.dart';
 
