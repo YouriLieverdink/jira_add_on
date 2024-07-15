@@ -100,8 +100,8 @@ class Issue {
     return {
       'project': project.name,
       'type': issuetype.name,
-      'issue': '$key : $summary',
-      'status': status.name,
+      'key': key,
+      'summary': summary,
       'url': url,
     };
   }

@@ -22,4 +22,11 @@ class User {
       'emailAddress': emailAddress,
     };
   }
+
+  Map<String, dynamic> toPrintable() {
+    return {
+      'name': displayName,
+      'email': emailAddress,
+    };
+  }
 }

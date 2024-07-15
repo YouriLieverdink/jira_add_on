@@ -4,21 +4,28 @@ import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-import './commands/assigned.dart';
-import './commands/log.dart';
-import './commands/myself.dart';
+import './commands/build.dart';
+import './commands/issue/show.dart';
+import './commands/issue/worklog.dart';
+import './commands/user/myself.dart';
 
 Future<void> main(
   List<String> args,
 ) async {
   final runner = CommandRunner(
     'jira_add_on',
-    'Command-line tool to log working hours on Jira.',
+    'Command-line tool to interact with Jira.',
   );
 
+  // User commands.
   runner.addCommand(MyselfCommand());
-  runner.addCommand(LogCommand());
-  runner.addCommand(AssignedCommand());
+
+  // Issue commands.
+  runner.addCommand(ShowCommand());
+  runner.addCommand(WorklogCommand());
+
+  // Other commands.
+  runner.addCommand(BuildCommand());
 
   try {
     await runner.run(args);

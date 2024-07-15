@@ -17,6 +17,16 @@ Future<Worklog> postIssueByKeyWorklog(
   });
 }
 
+Future<Issue> getIssueByKey(
+  String key,
+) async {
+  final response = await jiraClient.get(
+    '/issue/$key',
+  );
+
+  return Issue.fromJson(response.data);
+}
+
 Future<User> getMyself() async {
   final response = await jiraClient.get(
     '/myself',
@@ -40,7 +50,7 @@ Future<List<Issue>> search(
       .toList();
 }
 
-String? getKeyFromBranch(
+String? getIssueKeyFromBranch(
   String branch,
 ) {
   final match = RegExp(r'[A-Z]+-\d+').firstMatch(branch);
