@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:deep_pick/deep_pick.dart';
 import 'package:dio/dio.dart';
+import 'package:interact/interact.dart';
 import 'package:jira_add_on/jira_add_on.dart';
+import 'package:jira_add_on/src/services/git.dart';
 
 class LogCommand extends Command {
   LogCommand() {
@@ -11,6 +13,12 @@ class LogCommand extends Command {
       'comment',
       abbr: 'c',
       help: 'Additional comment for the worklog.',
+    );
+
+    argParser.addOption(
+      'key',
+      abbr: 'k',
+      help: 'The issue key to log work on.',
     );
   }
 
@@ -21,23 +29,29 @@ class LogCommand extends Command {
   final description = 'Log work on an issue';
 
   @override
-  final usage = 'jira_add_on log <issueKey> <timeSpent>';
+  final usage = 'jira_add_on log <timeSpent>';
 
   @override
   Future<void> run() async {
     final results = argResults;
     if (results == null) return;
 
-    // Validate that the command has been called correctly.
-    if (results.rest.length != 2) {
+    final timeSpent = results.rest.join(' ');
+
+    var issueKey = results.option('key');
+
+    // When no issue key is provided, try to read from the current branch.
+    if (issueKey == null) {
+      final branch = branchShowCurrent();
+      issueKey = getKeyFromBranch(branch);
+    }
+
+    if (issueKey == null) {
       throw UsageException(
-        'Invalid number of arguments',
+        'Issue key could not be determined. Please use the --key option.',
         usage,
       );
     }
-
-    final issueKey = pick(results.rest, 0).asStringOrThrow();
-    final timeSpent = pick(results.rest, 1).asStringOrThrow();
 
     try {
       final worklog = await postIssueByKeyWorklog(

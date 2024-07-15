@@ -57,7 +57,7 @@ class Issue {
   final IssueStatus status;
   final String summary;
 
-  String get url => 'https://script.atlassian.net/browse/$key';
+  String get url => 'https://$domain.atlassian.net/browse/$key';
 
   const Issue({
     required this.id,
