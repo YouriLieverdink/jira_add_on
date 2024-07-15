@@ -11,7 +11,10 @@ Future<Worklog> postIssueByKeyWorklog(
     data: jsonEncode(form),
   );
 
-  return Worklog.fromJson(response.data);
+  return Worklog.fromJson({
+    ...response.data,
+    'issueKey': key,
+  });
 }
 
 Future<User> getMyself() async {
@@ -35,4 +38,12 @@ Future<List<Issue>> search(
   return (response.data['issues'] as List)
       .map((issue) => Issue.fromJson(issue))
       .toList();
+}
+
+String? getKeyFromBranch(
+  String branch,
+) {
+  final match = RegExp(r'[A-Z]+-\d+').firstMatch(branch);
+
+  return match?.group(0);
 }

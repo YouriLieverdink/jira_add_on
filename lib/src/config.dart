@@ -10,7 +10,8 @@ final env = DotEnv(quiet: true)
     ".env",
   ]);
 
-String get username => env['USERNAME'] ?? '';
-String get password => env['PASSWORD'] ?? '';
+String get domain => env.getOrElse('DOMAIN', () => '');
+String get baseUrl => 'https://$domain.atlassian.net/rest/api/latest';
 
-String get baseUrl => 'https://script.atlassian.net/rest/api/latest';
+String get username => env.getOrElse('USERNAME', () => 'admin');
+String get password => env.getOrElse('PASSWORD', () => '');
