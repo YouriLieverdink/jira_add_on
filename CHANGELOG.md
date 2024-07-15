@@ -1,3 +1,7 @@
+# 0.5.1
+
+- refactor: print usage information when no time spent is provided
+
 # 0.5.0
 
 - feat: read issue key from current branch name

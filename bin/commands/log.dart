@@ -34,6 +34,13 @@ class LogCommand extends Command {
     final results = argResults;
     if (results == null) return;
 
+    if (results.rest.isEmpty) {
+      throw UsageException(
+        'No time spent provided.',
+        usage,
+      );
+    }
+
     final timeSpent = results.rest.join(' ');
 
     var issueKey = results.option('key');
