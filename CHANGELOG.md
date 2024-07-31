@@ -1,3 +1,7 @@
+# 0.7.0
+
+- feat: add `today` command
+
 # 0.6.0
 
 - refactor: refine the commands
