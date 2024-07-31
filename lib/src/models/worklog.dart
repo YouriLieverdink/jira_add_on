@@ -8,6 +8,7 @@ class Worklog {
   final int timeSpentSeconds;
   final DateTime started;
   final String? comment;
+  final Author author;
 
   String get url =>
       'https://$domain.atlassian.net/browse/$issueKey?focusedWorklogId=$id';
@@ -19,6 +20,7 @@ class Worklog {
     required this.timeSpentSeconds,
     required this.started,
     this.comment,
+    required this.author,
   });
 
   factory Worklog.fromJson(Map<String, dynamic> json) {
@@ -29,6 +31,7 @@ class Worklog {
       timeSpentSeconds: pick(json, 'timeSpentSeconds').asIntOrThrow(),
       started: pick(json, 'started').asDateTimeOrThrow(),
       comment: pick(json, 'comment').asStringOrNull(),
+      author: Author.fromJson(pick(json, 'author').asMapOrThrow()),
     );
   }
 
@@ -41,6 +44,7 @@ class Worklog {
       'comment': comment,
       'started': started.toIso8601String(),
       'url': url,
+      'author': author.toJson(),
     };
   }
 }

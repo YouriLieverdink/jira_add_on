@@ -15,13 +15,16 @@ class TodayCommand extends Command {
 
   @override
   Future<void> run() async {
+    final user = await getMyself();
+
     final now = DateTime.now();
     final midnight = DateTime(now.year, now.month, now.day);
 
     final since = midnight.millisecondsSinceEpoch;
     final ids = await getWorklogUpdatedIds(since);
 
-    final worklogs = await getWorklogList(ids);
+    final worklogs = (await getWorklogList(ids))
+        .where((worklog) => worklog.author.accountId == user.accountId);
 
     final totalTimeSpentSeconds = worklogs
         .map((worklog) => worklog.timeSpentSeconds)

@@ -1,3 +1,7 @@
+# 0.7.1
+
+- fix: filter worklogs by author
+
 # 0.7.0
 
 - feat: add `today` command
