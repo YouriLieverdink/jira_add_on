@@ -3,8 +3,10 @@ import 'package:jira_add_on/jira_add_on.dart';
 
 class Worklog {
   final String id;
-  final String issueKey;
+  final String? issueKey;
   final String timeSpent;
+  final int timeSpentSeconds;
+  final DateTime started;
   final String? comment;
 
   String get url =>
@@ -12,16 +14,20 @@ class Worklog {
 
   const Worklog({
     required this.id,
-    required this.issueKey,
+    this.issueKey,
     required this.timeSpent,
+    required this.timeSpentSeconds,
+    required this.started,
     this.comment,
   });
 
   factory Worklog.fromJson(Map<String, dynamic> json) {
     return Worklog(
       id: pick(json, 'id').asStringOrThrow(),
-      issueKey: pick(json, 'issueKey').asStringOrThrow(),
+      issueKey: pick(json, 'issueKey').asStringOrNull(),
       timeSpent: pick(json, 'timeSpent').asStringOrThrow(),
+      timeSpentSeconds: pick(json, 'timeSpentSeconds').asIntOrThrow(),
+      started: pick(json, 'started').asDateTimeOrThrow(),
       comment: pick(json, 'comment').asStringOrNull(),
     );
   }
@@ -31,7 +37,9 @@ class Worklog {
       'id': id,
       'issueKey': issueKey,
       'timeSpent': timeSpent,
+      'timeSpentSeconds': timeSpentSeconds,
       'comment': comment,
+      'started': started.toIso8601String(),
       'url': url,
     };
   }

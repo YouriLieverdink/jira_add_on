@@ -57,3 +57,33 @@ String? getIssueKeyFromBranch(
 
   return match?.group(0);
 }
+
+Future<List<int>> getWorklogUpdatedIds(
+  int since,
+) async {
+  final response = await jiraClient.get(
+    '/worklog/updated',
+    queryParameters: {
+      'since': since,
+    },
+  );
+
+  return (response.data['values'] as List)
+      .map((value) => value['worklogId'] as int)
+      .toList();
+}
+
+Future<List<Worklog>> getWorklogList(
+  List<int> ids,
+) async {
+  final response = await jiraClient.post(
+    '/worklog/list',
+    data: {
+      'ids': ids,
+    },
+  );
+
+  return (response.data as List)
+      .map((value) => Worklog.fromJson(value))
+      .toList();
+}
