@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:args/command_runner.dart';
-import 'package:dio/dio.dart';
-import 'package:jira_add_on/jira_add_on.dart';
+part of 'issue.dart';
 
 class IssueShowCommand extends Command {
   @override

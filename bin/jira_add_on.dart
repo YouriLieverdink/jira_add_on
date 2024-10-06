@@ -13,15 +13,9 @@ Future<void> main(
   );
 
   // User commands.
-  runner.addCommand(UserMyselfCommand());
-
-  // Issue commands.
-  runner.addCommand(IssueShowCommand());
-  runner.addCommand(IssueWorklogCommand());
-
-  // Other commands.
-  runner.addCommand(BuildCommand());
+  runner.addCommand(IssueCommand());
   runner.addCommand(TimeCommand());
+  runner.addCommand(MyselfCommand());
 
   try {
     await runner.run(args);

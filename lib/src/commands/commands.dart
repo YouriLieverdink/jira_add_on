@@ -1,5 +1,3 @@
-export './build.dart';
-export './issue/show.dart';
-export './issue/worklog.dart';
+export './issue.dart';
 export './time.dart';
-export './user/myself.dart';
+export './myself.dart';

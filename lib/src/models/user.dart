@@ -27,11 +27,13 @@ class User {
     };
   }
 
-  Map<String, dynamic> toPrintable() {
-    return {
-      'accountId': accountId,
-      'name': displayName,
-      'email': emailAddress,
-    };
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+
+    buffer //
+        .writeln('$displayName ($emailAddress)');
+
+    return '$buffer';
   }
 }
