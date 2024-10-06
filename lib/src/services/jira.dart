@@ -87,3 +87,18 @@ Future<List<Worklog>> getWorklogList(
       .map((value) => Worklog.fromJson(value))
       .toList();
 }
+
+Future<List<Worklog>> getWorklogByIssueKey(
+  String key,
+) async {
+  final response = await jiraClient.get(
+    '/issue/$key/worklog',
+  );
+
+  return (response.data['worklogs'] as List)
+      .map((value) => Worklog.fromJson({
+            ...value,
+            'issueKey': key,
+          }))
+      .toList();
+}
