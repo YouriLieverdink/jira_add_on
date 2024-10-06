@@ -4,12 +4,6 @@ import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-import './commands/build.dart';
-import './commands/issue/show.dart';
-import './commands/issue/worklog.dart';
-import 'commands/time.dart';
-import './commands/user/myself.dart';
-
 Future<void> main(
   List<String> args,
 ) async {
