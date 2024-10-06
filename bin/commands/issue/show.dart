@@ -4,7 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-class ShowCommand extends Command {
+class IssueShowCommand extends Command {
   @override
   String get name => 'show';
 
@@ -14,7 +14,7 @@ class ShowCommand extends Command {
   @override
   String get category => 'Issue';
 
-  ShowCommand() {
+  IssueShowCommand() {
     addIssueKeyOption(argParser);
   }
 

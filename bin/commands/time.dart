@@ -28,7 +28,7 @@ class TimeCommand extends Command {
   String get name => 'time';
 
   @override
-  String get description => 'Show worked time.';
+  String get description => 'Show time spent on issues in a specific range.';
 
   @override
   Future<void> run() async {
