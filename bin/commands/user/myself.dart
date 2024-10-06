@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-class MyselfCommand extends Command {
+class UserMyselfCommand extends Command {
   @override
   String get name => 'myself';
 

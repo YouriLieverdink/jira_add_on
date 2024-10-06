@@ -4,7 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-class WorklogCommand extends Command {
+class IssueWorklogCommand extends Command {
   @override
   String get name => 'worklog';
 
@@ -17,7 +17,7 @@ class WorklogCommand extends Command {
   @override
   String get invocation => '$name [timeSpent]';
 
-  WorklogCommand() {
+  IssueWorklogCommand() {
     addIssueKeyOption(argParser);
 
     argParser.addOption(

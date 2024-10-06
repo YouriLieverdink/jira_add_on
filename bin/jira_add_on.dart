@@ -7,7 +7,7 @@ import 'package:jira_add_on/jira_add_on.dart';
 import './commands/build.dart';
 import './commands/issue/show.dart';
 import './commands/issue/worklog.dart';
-import './commands/time/today.dart';
+import 'commands/time.dart';
 import './commands/user/myself.dart';
 
 Future<void> main(
@@ -19,17 +19,15 @@ Future<void> main(
   );
 
   // User commands.
-  runner.addCommand(MyselfCommand());
+  runner.addCommand(UserMyselfCommand());
 
   // Issue commands.
-  runner.addCommand(ShowCommand());
-  runner.addCommand(WorklogCommand());
-
-  // Time commands.
-  runner.addCommand(TodayCommand());
+  runner.addCommand(IssueShowCommand());
+  runner.addCommand(IssueWorklogCommand());
 
   // Other commands.
   runner.addCommand(BuildCommand());
+  runner.addCommand(TimeCommand());
 
   try {
     await runner.run(args);
