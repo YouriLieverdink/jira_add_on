@@ -39,6 +39,10 @@ Future<void> main(
       case 401:
         stderr.writeln('[401] Unauthorized.');
         exit(1);
+
+      default:
+        stderr.writeln(response.data);
+        exit(1);
     }
   } //
   finally {

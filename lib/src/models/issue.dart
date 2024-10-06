@@ -96,13 +96,14 @@ class Issue {
     };
   }
 
-  Map<String, dynamic> toPrintable() {
-    return {
-      'project': project.name,
-      'type': issuetype.name,
-      'key': key,
-      'summary': summary,
-      'url': url,
-    };
+  @override
+  String toString() {
+    final buffer = StringBuffer();
+
+    buffer //
+      ..writeln('[$key] $summary')
+      ..writeln(url);
+
+    return '$buffer';
   }
 }

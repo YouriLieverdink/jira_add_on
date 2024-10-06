@@ -9,6 +9,26 @@ part './issue_worklog.dart';
 
 class IssueCommand extends Command {
   IssueCommand() {
+    final defaultsTo = (() {
+      // Attempt to retrieve the key from the branch name.
+      try {
+        final branch = branchShowCurrent();
+        final issueKey = getIssueKeyFromBranch(branch);
+
+        return issueKey;
+      } //
+      catch (_) {
+        return null;
+      }
+    })();
+
+    argParser.addOption(
+      'key',
+      defaultsTo: defaultsTo,
+      abbr: 'k',
+      help: 'The key of the issue.',
+    );
+
     addSubcommand(IssueShowCommand());
     addSubcommand(IssueWorklogCommand());
   }

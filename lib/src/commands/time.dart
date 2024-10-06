@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:jira_add_on/jira_add_on.dart';
-import 'package:jira_add_on/src/utils/date.dart';
 
 class TimeCommand extends Command {
   /// The available date range options.
@@ -74,6 +73,10 @@ class TimeCommand extends Command {
     }).toList();
 
     // 6. Print out the total time spent per issue.
+    final List<List<String>> rows = [
+      ['Key', 'Summary', 'Time spent']
+    ];
+
     for (final issue in issues) {
       final total = filtered
           .where((worklog) => worklog.issueKey == issue.key)
@@ -83,7 +86,8 @@ class TimeCommand extends Command {
       final hours = total ~/ 3600;
       final minutes = (total % 3600) ~/ 60;
 
-      stdout.writeln('${issue.key} (${issue.summary}): ${hours}h ${minutes}m');
+      // rows.add(['[${issue.key}] ${issue.summary}', '${hours}h ${minutes}m']);
+      rows.add([issue.key, issue.summary, '${hours}h ${minutes}m']);
     }
 
     // 7. Print out the total time spent.
@@ -94,6 +98,21 @@ class TimeCommand extends Command {
     final hours = totalTimeSpentSeconds ~/ 3600;
     final minutes = (totalTimeSpentSeconds % 3600) ~/ 60;
 
-    stdout.writeln('Total: ${hours}h ${minutes}m');
+    rows.add(['', '', '']);
+    rows.add(['Total', '', '${hours}h ${minutes}m']);
+
+    final totalTimeSpentSeconds60 = (totalTimeSpentSeconds / 6) * 10;
+    final hours60 = totalTimeSpentSeconds60 ~/ 3600;
+    final minutes60 = (totalTimeSpentSeconds60 % 3600) ~/ 60;
+
+    rows.add(['Total (60%)', '', '${hours60}h ${minutes60}m']);
+
+    final totalTimeSpentSeconds80 = (totalTimeSpentSeconds / 8) * 10;
+    final hours80 = totalTimeSpentSeconds80 ~/ 3600;
+    final minutes80 = (totalTimeSpentSeconds80 % 3600) ~/ 60;
+
+    rows.add(['Total (80%)', '', '${hours80}h ${minutes80}m']);
+
+    stdout.writeTable(rows);
   }
 }
