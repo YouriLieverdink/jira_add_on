@@ -1,3 +1,7 @@
+# 0.8.0
+
+- feat: add detailed viewing options for worked time
+
 # 0.7.1
 
 - fix: filter worklogs by author
