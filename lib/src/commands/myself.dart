@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-class UserMyselfCommand extends Command {
+class MyselfCommand extends Command {
   @override
   String get name => 'myself';
 
@@ -11,13 +11,13 @@ class UserMyselfCommand extends Command {
   String get description => 'Show details of the current user.';
 
   @override
-  String get category => 'User';
+  String get category => 'Others';
 
   @override
   Future<void> run() async {
     final user = await getMyself();
 
-    stdout.writeJson(user.toPrintable());
+    stdout.write(user);
     exit(0);
   }
 }

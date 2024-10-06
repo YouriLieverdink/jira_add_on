@@ -4,12 +4,6 @@ import 'package:args/command_runner.dart';
 import 'package:dio/dio.dart';
 import 'package:jira_add_on/jira_add_on.dart';
 
-import './commands/build.dart';
-import './commands/issue/show.dart';
-import './commands/issue/worklog.dart';
-import 'commands/time.dart';
-import './commands/user/myself.dart';
-
 Future<void> main(
   List<String> args,
 ) async {
@@ -19,15 +13,9 @@ Future<void> main(
   );
 
   // User commands.
-  runner.addCommand(UserMyselfCommand());
-
-  // Issue commands.
-  runner.addCommand(IssueShowCommand());
-  runner.addCommand(IssueWorklogCommand());
-
-  // Other commands.
-  runner.addCommand(BuildCommand());
+  runner.addCommand(IssueCommand());
   runner.addCommand(TimeCommand());
+  runner.addCommand(MyselfCommand());
 
   try {
     await runner.run(args);
@@ -50,6 +38,10 @@ Future<void> main(
 
       case 401:
         stderr.writeln('[401] Unauthorized.');
+        exit(1);
+
+      default:
+        stderr.writeln(response.data);
         exit(1);
     }
   } //

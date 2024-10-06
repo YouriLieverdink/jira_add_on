@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:args/command_runner.dart';
-import 'package:dio/dio.dart';
-import 'package:jira_add_on/jira_add_on.dart';
+part of 'issue.dart';
 
 class IssueWorklogCommand extends Command {
   @override
@@ -18,8 +14,6 @@ class IssueWorklogCommand extends Command {
   String get invocation => '$name [timeSpent]';
 
   IssueWorklogCommand() {
-    addIssueKeyOption(argParser);
-
     argParser.addOption(
       'comment',
       abbr: 'c',
@@ -40,11 +34,11 @@ class IssueWorklogCommand extends Command {
       );
     }
 
-    final issueKey = results.option('key');
+    final issueKey = parent?.argResults?.option('key');
     if (issueKey == null) {
       throw UsageException(
         'Issue key could not be determined. Please use the --key option.',
-        usage,
+        parent?.usage ?? usage,
       );
     }
 

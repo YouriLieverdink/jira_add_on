@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:args/command_runner.dart';
-import 'package:dio/dio.dart';
-import 'package:jira_add_on/jira_add_on.dart';
+part of 'issue.dart';
 
 class IssueShowCommand extends Command {
   @override
@@ -14,27 +10,20 @@ class IssueShowCommand extends Command {
   @override
   String get category => 'Issue';
 
-  IssueShowCommand() {
-    addIssueKeyOption(argParser);
-  }
-
   @override
   Future<void> run() async {
-    final results = argResults;
-    if (results == null) return;
-
-    final issueKey = results.option('key');
+    final issueKey = parent?.argResults?.option('key');
     if (issueKey == null) {
       throw UsageException(
         'The issue key could not be determined. Please use the --key option.',
-        usage,
+        parent?.usage ?? usage,
       );
     }
 
     try {
       final issue = await getIssueByKey(issueKey);
 
-      stdout.writeJson(issue.toPrintable());
+      stdout.write(issue);
       exit(0);
     } //
     on DioException catch (e) {
