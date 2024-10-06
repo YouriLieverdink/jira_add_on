@@ -2,8 +2,28 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:jira_add_on/jira_add_on.dart';
+import 'package:jira_add_on/src/utils/date.dart';
 
 class TimeCommand extends Command {
+  /// The available date range options.
+  static final ranges = {
+    'today': getToday,
+    'thisWeek': getThisWeek,
+    'thisMonth': getThisMonth,
+    'lastWeek': getLastWeek,
+    'lastMonth': getLastMonth,
+  };
+
+  TimeCommand() {
+    argParser.addOption(
+      'range',
+      abbr: 'r',
+      allowed: [...ranges.keys],
+      defaultsTo: 'today',
+      help: 'The range of time to search for worklogs.',
+    );
+  }
+
   @override
   String get name => 'time';
 
@@ -12,15 +32,24 @@ class TimeCommand extends Command {
 
   @override
   Future<void> run() async {
-    final start = '2024-09-30';
-    final end = '2024-10-06';
-    // final start = '2024-10-06';
-    // final end = '2024-10-06';
+    final results = argResults;
+    if (results == null) return;
 
-    // 1. Get the current user.
+    final range = results.option('range');
+    if (range == null) {
+      throw UsageException(
+        'The range could not be determined. Please use the --range option.',
+        usage,
+      );
+    }
+
+    // 1. Determine the start and end date for the range.
+    final (start, end) = ranges[range]!();
+
+    // 2. Get the current user.
     final myself = await getMyself();
 
-    // 2. Search for issues with worklogs in a specific date range.
+    // 3. Search for issues with worklogs in a specific date range.
     final jql = """
       worklogAuthor = ${myself.accountId} AND 
       worklogDate >= $start AND
@@ -29,13 +58,13 @@ class TimeCommand extends Command {
 
     final issues = await search(jql);
 
-    // 3. Get worklogs for each issue.
+    // 4. Get worklogs for each issue.
     final futures = issues.map((issue) => getWorklogByIssueKey(issue.key));
     final worklogs = (await Future.wait(futures)) //
         .expand((el) => el)
         .toList();
 
-    // 4. Filter out worklogs outside the date range and that don't belong to the current user.
+    // 5. Filter out worklogs outside the date range and that don't belong to the current user.
     final filtered = worklogs.where((worklog) {
       final date = worklog.started.toLocal();
 
@@ -44,7 +73,7 @@ class TimeCommand extends Command {
           worklog.author.accountId == myself.accountId;
     }).toList();
 
-    // 5. Print out the total time spent per issue.
+    // 6. Print out the total time spent per issue.
     for (final issue in issues) {
       final total = filtered
           .where((worklog) => worklog.issueKey == issue.key)
@@ -57,7 +86,7 @@ class TimeCommand extends Command {
       stdout.writeln('${issue.key} (${issue.summary}): ${hours}h ${minutes}m');
     }
 
-    // 6. Print out the total time spent.
+    // 7. Print out the total time spent.
     final totalTimeSpentSeconds = filtered
         .map((worklog) => worklog.timeSpentSeconds)
         .reduce((a, b) => a + b);
