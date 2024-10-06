@@ -1,3 +1,8 @@
+# 0.9.0
+
+- refactor: improve overall code quality
+- feat: pretty worked time viewer
+
 # 0.8.0
 
 - feat: add detailed viewing options for worked time
