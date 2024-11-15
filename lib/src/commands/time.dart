@@ -21,6 +21,13 @@ class TimeCommand extends Command {
       defaultsTo: 'today',
       help: 'The range of time to search for worklogs.',
     );
+
+    argParser.addOption(
+      'actual',
+      abbr: 'a',
+      help: 'Actual time spent.',
+      valueHelp: '8.75',
+    );
   }
 
   @override
@@ -112,6 +119,27 @@ class TimeCommand extends Command {
     final minutes80 = (totalTimeSpentSeconds80 % 3600) ~/ 60;
 
     rows.add(['Total (80%)', '', '${hours80}h ${minutes80}m']);
+
+    final actual = results.option('actual');
+    if (actual != null) {
+      final actualTimeSpent = double.tryParse(actual);
+      if (actualTimeSpent == null) return;
+
+      final actualTimeSpentSeconds = (actualTimeSpent * 3600).toInt();
+      final actualTimeSpentHours = actualTimeSpentSeconds ~/ 3600;
+      final actualTimeSpentMinutes = (actualTimeSpentSeconds % 3600) ~/ 60;
+
+      // Determine the users' efficiency, based on the logged time.
+      final efficiency = totalTimeSpentSeconds / actualTimeSpentSeconds;
+
+      rows.add(['', '', '']);
+      rows.add([
+        'Actual',
+        '',
+        '${actualTimeSpentHours}h ${actualTimeSpentMinutes}m'
+      ]);
+      rows.add(['Efficiency', '', '${(efficiency * 100).toStringAsFixed(2)}%']);
+    }
 
     stdout.writeTable(rows);
   }

@@ -1,3 +1,7 @@
+# 0.10.0
+
+- feat: add option for actual time spent
+
 # 0.9.0
 
 - refactor: improve overall code quality
